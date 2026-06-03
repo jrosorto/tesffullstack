@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="header">
+    <h1>Listado de Personas</h1>
+    <button class="btn btn-primary" (click)="goToCreate()">+ Crear Persona</button>
+  </div>
+
+  @if (errorMsg()) {
+    <div class="alert alert-error">{{ errorMsg() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading">Cargando...</div>
+  } @else {
+    @if (persons().length === 0) {
+      <div class="empty">No hay personas registradas.</div>
+    } @else {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Fecha Nacimiento</th>
+              <th>Puesto</th>
+              <th>Sueldo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (person of persons(); track person.id) {
+              <tr>
+                <td>{{ person.id }}</td>
+                <td>{{ person.nombre }}</td>
+                <td>{{ person.apellido }}</td>
+                <td>{{ person.fechaNacimiento }}</td>
+                <td>{{ person.puesto }}</td>
+                <td>{{ person.sueldo | number:'1.2-2' }}</td>
+                <td class="actions">
+                  <button class="btn btn-warning" (click)="goToEdit(person.id!)">Editar</button>
+                  <button class="btn btn-danger" (click)="deletePerson(person.id!)">Eliminar</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</div>
